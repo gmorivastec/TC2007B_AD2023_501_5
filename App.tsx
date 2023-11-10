@@ -10,8 +10,11 @@
 // AGREGAR UN .GITIGNORE AL INICIAR
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { EjemploClase } from './classes/EjemploClase';
+import Perrin, { DoggyRow } from './classes/DoggyComponent';
+import RequestClass from './classes/RequestClass';
+import RequestFunction from './classes/RequestFunction';
 
 // es necesario definir un componente default en el módulo principal
 // export - exponer miembro del módulo al exterior
@@ -39,7 +42,22 @@ export default function App() {
     // (es simplemente otra manera de declarar objetos)
     <View style={styles.container}>
       <Text>Hola amiguitos!</Text>
+      {/* 
       <EjemploClase nombre="Perrito" edad={5} />
+      <Perrin nombre="Perrin" edad={2} />
+      */}
+      <FlatList 
+        data={[
+          {name: "perrito1", uri: "https://www.warrenphotographic.co.uk/photography/sqrs/41644.jpg"},
+          {name: "perrito2", uri: "https://www.dogtrickacademy.com/wp-content/uploads/2011/11/getting-a-puppy-feature.png"},
+          {name: "perrito3", uri: "https://www.warrenphotographic.co.uk/photography/sqrs/18683.jpg"},
+        ]}
+        renderItem={({item}) => {
+          return <DoggyRow nombre={item.name} uri={item.uri}/>;
+        }}
+      />
+      <RequestClass uri="https://bitbucket.org/itesmguillermorivas/partial2/raw/45f22905941b70964102fce8caf882b51e988d23/carros.json"/>
+      <RequestFunction uri="https://bitbucket.org/itesmguillermorivas/partial2/raw/45f22905941b70964102fce8caf882b51e988d23/carros.json"/>
       <StatusBar style="auto" />
     </View>
   );
