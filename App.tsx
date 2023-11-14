@@ -10,12 +10,32 @@
 // AGREGAR UN .GITIGNORE AL INICIAR
 
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { EjemploClase } from './classes/EjemploClase';
 import Perrin, { DoggyRow } from './classes/DoggyComponent';
 import RequestClass from './classes/RequestClass';
 import RequestFunction from './classes/RequestFunction';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Main"
+          component={Main}
+        />
+        <Stack.Screen 
+          name="NavExample"
+          component={NavExample}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 // es necesario definir un componente default en el módulo principal
 // export - exponer miembro del módulo al exterior
 // default - miembro por default que se importa al importar módulo (luego vemos más!)
@@ -30,7 +50,7 @@ import RequestFunction from './classes/RequestFunction';
 // reutilizable 
 // componentes están hechos a su vez de componentes más sencillos
 
-export default function App() {
+export function Main({navigation} : any) {
 
   // cuando creamos un componente por medio de función
   // necesitamos regresar UI como resultado
@@ -56,6 +76,12 @@ export default function App() {
           return <DoggyRow nombre={item.name} uri={item.uri}/>;
         }}
       />
+      <Button 
+        title="NAVEGACION"
+        onPress={() => {
+          navigation.navigate("NavExample", {datos: "AQUÍ VAN UNOS DATOS CHIDOS!"});
+        }}
+      />
       <RequestClass uri="https://bitbucket.org/itesmguillermorivas/partial2/raw/45f22905941b70964102fce8caf882b51e988d23/carros.json"/>
       <RequestFunction uri="https://bitbucket.org/itesmguillermorivas/partial2/raw/45f22905941b70964102fce8caf882b51e988d23/carros.json"/>
       <StatusBar style="auto" />
@@ -71,3 +97,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+function NavExample({navigation, route} : any) {
+  return (
+    <View>
+      <Text>Hola! {route?.params.datos}</Text>
+    </View>
+  );
+}
